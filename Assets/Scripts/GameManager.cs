@@ -28,4 +28,9 @@ public class GameManager : MonoBehaviour
             resultHandler.Setup();
         }
     }
+
+    public void RestartLevel()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
 }

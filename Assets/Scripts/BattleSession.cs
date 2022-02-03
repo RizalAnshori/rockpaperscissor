@@ -21,6 +21,7 @@ public class BattleSession : MonoBehaviour
 
     public void SetupBattle()
     {
+        battleResult.text = $"{playerHand.hand.currentHand.ToString()} \n vs \n{enemyHand.hand.currentHand.ToString()}";
         this.gameObject.SetActive(true);
         if (playerHand.hand.currentHand == enemyHand.hand.currentHand)
         {
@@ -33,27 +34,33 @@ public class BattleSession : MonoBehaviour
 
     private IEnumerator OnHasWinner()
     {
-        enemyParent.SetActive(!winner == playerHand);
-        playerParent.SetActive(winner == playerHand);
-        if(winner == playerHand)
+        enemyParent.SetActive(true);
+        playerParent.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        if (winner == playerHand)
         {
-
+            enemyParent.SetActive(false);
+            playerParent.SetActive(true);
         }
         else
         {
-
+            enemyParent.SetActive(true);
+            playerParent.SetActive(false);
         }
         winner.winAmount++;
         battleResult.text = $"{winner.hand.owner.gameObject.name} is win";
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(2f);
         gameManager.OnRoundComplete();
         this.gameObject.SetActive(false);
     }
 
     private IEnumerator OnDraw()
     {
+        enemyParent.SetActive(true);
+        playerParent.SetActive(true);
+        yield return new WaitForSeconds(1f);
         battleResult.text = "It's Draw";
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
         gameManager.OnRoundComplete();
         this.gameObject.SetActive(false);
     }

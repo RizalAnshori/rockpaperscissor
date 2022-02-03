@@ -31,10 +31,12 @@ public class ResultHandler : MonoBehaviour
 
     private void ShowResult(bool isDraw)
     {
+        winnerImage.color = winner.color;
         this.gameObject.SetActive(true);
         if(isDraw)
         {
             title.text = "Draw";
+            winnerName.text = "";
             winnerImage.gameObject.SetActive(false);
             return;
         }

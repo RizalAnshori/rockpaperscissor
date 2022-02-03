@@ -7,23 +7,35 @@ using UnityEngine.UI;
 public class BattleSession : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private Character playerHand;
-    [SerializeField] private Character enemyHand;
+    [SerializeField] private Character player;
+    [SerializeField] private Character enemy;
+
     [SerializeField] private GameObject playerParent;
-    [SerializeField] private GameObject enemyParent;
     [SerializeField] private Image playerImage;
-    [SerializeField] private Image enemyImage;
     [SerializeField] private Image playerHandImage;
+    [SerializeField] private TMP_Text playerHandLabel;
+
+    [SerializeField] private GameObject enemyParent;
+    [SerializeField] private Image enemyImage;
     [SerializeField] private Image enemyHandImage;
+    [SerializeField] private TMP_Text enemyHandLabel;
+
     [SerializeField] private TMP_Text battleResult;
     [SerializeField]private List<Character> hands;
     private Character winner;
 
     public void SetupBattle()
     {
-        battleResult.text = $"{playerHand.hand.currentHand.ToString()} \n vs \n{enemyHand.hand.currentHand.ToString()}";
+        playerImage.color = player.color;
+        playerHandLabel.text = player.hand.currentHand.ToString();
+
+        enemyImage.color = enemy.color;
+        enemyHandLabel.text = enemy.hand.currentHand.ToString();
+
+        battleResult.text = $"{player.hand.currentHand.ToString()} \n vs \n{enemy.hand.currentHand.ToString()}";
+
         this.gameObject.SetActive(true);
-        if (playerHand.hand.currentHand == enemyHand.hand.currentHand)
+        if (player.hand.currentHand == enemy.hand.currentHand)
         {
             StartCoroutine(OnDraw());
             return;
@@ -37,7 +49,7 @@ public class BattleSession : MonoBehaviour
         enemyParent.SetActive(true);
         playerParent.SetActive(true);
         yield return new WaitForSeconds(2f);
-        if (winner == playerHand)
+        if (winner == player)
         {
             enemyParent.SetActive(false);
             playerParent.SetActive(true);
